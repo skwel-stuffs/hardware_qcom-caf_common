@@ -17,7 +17,8 @@ UM_PLATFORMS := \
     $(UM_4_4_FAMILY) \
     $(UM_4_9_FAMILY) \
     $(UM_4_14_FAMILY) \
-    $(UM_4_19_FAMILY) \
+    $(UM_4_19_KONA_FAMILY) \
+    $(UM_4_19_BENGAL_FAMILY) \
     $(UM_5_4_FAMILY) \
     $(UM_5_10_FAMILY) \
     $(UM_5_15_FAMILY) \
@@ -28,7 +29,8 @@ LEGACY_UM_PLATFORMS := \
     $(UM_4_4_FAMILY) \
     $(UM_4_9_FAMILY) \
     $(UM_4_14_FAMILY) \
-    $(UM_4_19_FAMILY) \
+    $(UM_4_19_KONA_FAMILY) \
+    $(UM_4_19_BENGAL_FAMILY) \
     $(UM_5_4_FAMILY)
 
 QSSI_SUPPORTED_PLATFORMS := \
@@ -36,7 +38,8 @@ QSSI_SUPPORTED_PLATFORMS := \
     $(UM_4_19_LEGACY_FAMILY) \
     $(UM_4_9_FAMILY) \
     $(UM_4_14_FAMILY) \
-    $(UM_4_19_FAMILY) \
+    $(UM_4_19_KONA_FAMILY) \
+    $(UM_4_19_BENGAL_FAMILY) \
     $(UM_5_4_FAMILY) \
     $(UM_5_10_FAMILY) \
     $(UM_5_15_FAMILY) \
@@ -183,7 +186,7 @@ ifneq ($(filter msm8937 msm8953 msm8996,$(TARGET_BOARD_PLATFORM)),)
 endif
 
 # Enable DRM PP driver on UM platforms that support it
-ifneq ($(filter $(UM_4_9_FAMILY) $(UM_4_14_FAMILY) $(UM_4_19_FAMILY) $(UM_5_4_FAMILY) $(UM_5_10_FAMILY) $(UM_5_15_FAMILY) $(UM_5_15_BENGAL_FAMILY),$(TARGET_BOARD_PLATFORM)),)
+ifneq ($(filter $(UM_4_9_FAMILY) $(UM_4_14_FAMILY) $(UM_4_19_KONA_FAMILY) $(UM_4_19_BENGAL_FAMILY) $(UM_5_4_FAMILY) $(UM_5_10_FAMILY) $(UM_5_15_FAMILY) $(UM_5_15_BENGAL_FAMILY),$(TARGET_BOARD_PLATFORM)),)
     SOONG_CONFIG_qtidisplay_drmpp := true
     TARGET_USES_DRM_PP := true
 endif
@@ -212,12 +215,12 @@ TARGET_ADDITIONAL_GRALLOC_10_USAGE_BITS += | (1 << 13)
 TARGET_ADDITIONAL_GRALLOC_10_USAGE_BITS += | (1 << 21)
 
 # Mark GRALLOC_USAGE_PRIVATE_HEIF_VIDEO as valid gralloc bit on UM platforms that support it
-ifneq ($(filter $(UM_4_9_FAMILY) $(UM_4_14_FAMILY) $(UM_4_19_FAMILY) $(UM_5_4_FAMILY) $(UM_5_10_FAMILY) $(UM_5_15_FAMILY) $(UM_5_15_BENGAL_FAMILY),$(TARGET_BOARD_PLATFORM)),)
+ifneq ($(filter $(UM_4_9_FAMILY) $(UM_4_14_FAMILY) $(UM_4_19_KONA_FAMILY) $(UM_4_19_BENGAL_FAMILY) $(UM_5_4_FAMILY) $(UM_5_10_FAMILY) $(UM_5_15_FAMILY) $(UM_5_15_BENGAL_FAMILY),$(TARGET_BOARD_PLATFORM)),)
     TARGET_ADDITIONAL_GRALLOC_10_USAGE_BITS += | (1 << 27)
 endif
 
 # Enable master side content protection on UM platforms that support it
-MASTER_SIDE_CP_TARGET_LIST := msm8996 $(UM_4_4_FAMILY) $(UM_4_9_FAMILY) $(UM_4_14_FAMILY) $(UM_4_19_FAMILY)
+MASTER_SIDE_CP_TARGET_LIST := msm8996 $(UM_4_4_FAMILY) $(UM_4_9_FAMILY) $(UM_4_14_FAMILY) $(UM_4_19_KONA_FAMILY) $(UM_4_19_BENGAL_FAMILY)
 ifneq ($(filter $(MASTER_SIDE_CP_TARGET_LIST),$(TARGET_BOARD_PLATFORM)),)
     SOONG_CONFIG_qtidisplay_master_side_cp := true
 endif
@@ -251,9 +254,12 @@ else ifneq ($(filter $(UM_4_9_FAMILY),$(TARGET_BOARD_PLATFORM)),)
 else ifneq ($(filter $(UM_4_14_FAMILY),$(TARGET_BOARD_PLATFORM)),)
     MSM_VIDC_TARGET_LIST := $(UM_4_14_FAMILY)
     QCOM_HARDWARE_VARIANT := sm8150
-else ifneq ($(filter $(UM_4_19_FAMILY),$(TARGET_BOARD_PLATFORM)),)
-    MSM_VIDC_TARGET_LIST := $(UM_4_19_FAMILY)
+else ifneq ($(filter $(UM_4_19_KONA_FAMILY),$(TARGET_BOARD_PLATFORM)),)
+    MSM_VIDC_TARGET_LIST := $(UM_4_19_KONA_FAMILY)
     QCOM_HARDWARE_VARIANT := sm8250
+else ifneq ($(filter $(UM_4_19_BENGAL_FAMILY),$(TARGET_BOARD_PLATFORM)),)
+    MSM_VIDC_TARGET_LIST := $(UM_4_19_BENGAL_FAMILY)
+    QCOM_HARDWARE_VARIANT := bengal
 else ifneq ($(filter $(UM_5_4_FAMILY),$(TARGET_BOARD_PLATFORM)),)
     QCOM_HARDWARE_VARIANT := sm8350
 else ifneq ($(filter $(UM_5_10_FAMILY),$(TARGET_BOARD_PLATFORM)),)
